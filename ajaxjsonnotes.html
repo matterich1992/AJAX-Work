@@ -1,0 +1,142 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>AJAX</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+ <!--<link rel="stylesheet" href="css/styles.css?v=1.0">-->
+  
+</head>
+
+<body>
+
+<h2 class="city"> The city is currently: </h2>
+
+	<div id ="target">
+		
+		<h1>The Weather Ajax</h1>
+		<input id="zip-code">
+		<button id="submit">Submit</button>
+		<h2 class="city"> I see you are currently in: <span></span></h2>
+		<h2 class = "temp"> The current Temperature is: </h2>
+		<h3 class="max-temp"> The maximum temperature is: </h3>
+		<h3 class="min-temp"> The maximum temperature is: </h3>
+
+		<h3 class="wind"> the current windspeed is: </h3>
+		<h3 class="date"> the Date and Time of sunrise: </h3>
+
+	</div>
+  
+  <!--<script src="js/scripts.js"></script>  -->
+  
+  <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+ 
+ <script>
+	
+// Ajax and Jquery Here
+$(document).ready(function(){
+	$('#submit').on('click',function(){
+		var location = $('#zip-code').val();
+		$('h2 span').append(location);
+	});
+
+
+$.ajax({
+	url: 'http://api.openweathermap.org/data/2.5/weather?q=Sunnyvale&APPID=a278a6c0b12c77148938974fb77fb720',
+	method: "GET",
+	success: function(weather_data){
+		console.log(data);
+
+		$('.city').append(weather_data.name);
+		$('.temp').append(((weather_data.main.temp*1.8)-459.67).toFixed(2) + ' deg F');
+		$('.max-temp').append(((weather_data.main.temp_max*1.8)-459.67).toFixed(2) + 'deg F');
+		$('.min-temp').append(((weather_data.main.temp_min*1.8)-459.67).toFixed(2) + 'deg F');
+		$('.wind').append(weather_data.wind.speed + 'Mph');
+		$('.date').append(new Date(weather_data.sys.sunrise*1000));
+	}
+});
+
+// $.get(url:'http://api.openweathermap.org/data/2.5/weather?q=London&APPID=a278a6c0b12c77148938974fb77fb720' , function(data){console.log(data);});
+
+});
+
+	</script>
+
+	
+
+</body>
+</html>
+
+<!--AJAX Notes
+
+ Grabbing things from other servers.
+
+-Double Quotes Around Everything.
+-API usually already in JSON format
+	
+		JSON.stringify && JSON.parse//
+
+JSON.stringify(data)
+
+JSON.parse(json_data) reverses and turns into javascript values.
+
+
+AJAX - Interacting wither servers while JS is orking on your page.
+Page is interactive without having to reload entirely.
+
+read write and receive emails without having to reload the entire page.
+
+function doStuff(){
+	action 1 - get something from server(slow)
+	action 2
+	action 3
+};
+
+
+FORMS
+
+$.ajax(url, options) - options is usually an object // 
+
+$.ajax({
+	url: something, - http://someserver/com/posts',
+	Method: something, 'GET',
+	Data:JSON.stringify(ourData),
+	Success: something - append something to a div
+});
+
+$.ajax({url: something, - http://someserver/com/posts',
+	Method: something, 'GET',
+	success: function(data){
+		//do some stuff with data
+	},
+	Error: function() {}
+
+});
+
+$.ajax({
+	url: 'http:// some server',
+	method: "GET"
+	success: function(data){
+	console.log(data);
+	}
+});
+
+REST - Representational State Transfer - protocol for sending data across the internet
+
+GET
+POST
+PUT 
+DELETE
+
+API - Application Programming Interfaces
+
+the data that places have given us access to
+
+in API Url everything after the ? is the data that we want
+
+$.get(url: , function(data){console.log(data);})
+
+-->
